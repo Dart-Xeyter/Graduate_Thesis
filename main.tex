@@ -9,6 +9,8 @@
 
 %% подключаем преамбулу: в ней содержится подключение всех необходимых пакетов
 \input{include/preambule.tex}
+%% настраиваем часто используемые команды и обозначения
+\input{include/notation.tex}
 
 \begin{document}
     %% титульник
@@ -30,7 +32,7 @@
     \tableofcontents{}
     \newpage
 
-    % \fontsize{14}{16}\selectfont
+    \fontsize{14}{16}\selectfont
     \input{parts/Chapter0.tex} %% Введение
     \newpage
     \input{parts/Chapter1.tex} %% Постановка задачи
@@ -49,6 +51,6 @@
     \bibliography{references}
 
     %% в зависимости от надобности подключаем раздел "Приложение"
-    % \newpage
-    % \input{Appendix.tex}
+    \newpage
+    \input{parts/Appendix.tex}
 \end{document}
