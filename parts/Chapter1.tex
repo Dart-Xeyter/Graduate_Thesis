@@ -7,6 +7,35 @@
 %следовать структуре технического задания, включая как описание самой задачи,
 %так и набор требований к ее решению.
 
-Обозначим $\mathcal{R}_q^n = \Z_q[x]/(x^n+1)$, где $q$ --- простое и $n$ --- степень $2$. Тогда многочлен деления круга $x^n+1$ неприводим над $\Z$, откуда $\Z[x]/(x^n+1)$ --- циклотомическое поле, а само $\mathcal{R}_q^n$ --- подходящее по структуре кольцо.
+Обозначим $\mathcal{R}_q^n = \Z_q[x]/(x^n+1)$, где $q$ --- простое и $n$ --- степень $2$. Этот многочлен деления круга $x^n+1$ неприводим над $\Z$, откуда $\Z[x]/(x^n+1)$ --- циклотомическое поле, а само $\mathcal{R}_q^n$ --- связанное с ним кольцо.
+
+Многочлен $\bold{a} \in \mathcal{R}_q^n$ задаётся $n$ коэффициентами из $\Z_q$. Если каждый из них независимо сгенерирован из распределения $P$ или равномерно из мн-ва $S$, будем обозначать это $\bold{a} \leftarrow P$ или $\bold{a} \leftarrow S$ соответственно.
+
+Сумма и произведение редуцируются в $\mathcal{R}_q^n$ с $\Z_q[x]$, и из $x^n = -1$:
+\begin{equation*}
+	(\bold a+\bold b)_k = a_k+b_k, \qquad (\bold a\bold b)_k = \sum_{i=0}^k{a_ib_{k-i}}\,-\sum_{i=k+1}^{n-1}{a_ib_{n+k-i}}
+\end{equation*}
 
 Будем обозначать биномиальное распределение c $n$ попытками и вероятностью успеха $p$, как $\mathcal{B}(n, p)$, а его значение в точке $x$ за $\mathcal{B}(n, p)[x]$ (здесь $0 \leq x \leq n$). Если $\xi, \mu \sim \mathcal{B}(k, p)$ --- независимые случайные величины, распределение разности $\xi-\mu$ обозначим за $\chi_k$ ({\it centered binomial distribution}), а его значение в точке $x$ за $\chi_k[x]$ (здесь $-k \leq x \leq k$).
+
+Свётку в $\Z_q$ распределений $P$ и $R$ станем писать, как $P * R$. Свёртку же распределения $P$ с собой $n-1$ раз изобразим $P^{\circledast n}$.
+
+В алфавите $\Sigma_Q$ размера $Q$ будем брать символы $\{0, \ldots, Q-1\}$. Определим отображения $\Map: \Sigma_Q \to \Z_q$, и наоборот $\Demap: \Z_q \to \Sigma_Q$, как
+\begin{equation*}
+	\Map(s) = \left\lfloor\frac{sq}{Q}\right\rfloor, \qquad \Demap(x) = \left\lfloor\frac{yQ}{q}\right\rfloor \;\text{для}\;\; y = x+\left\lfloor\frac{q}{2Q}\right\rfloor
+\end{equation*}
+В формуле сверху считается $y \in \Z_q$. После этого сообщение $m \in \Sigma_Q^n$ кодируется и декодируется посимвольно $\Map: \Sigma_Q^n \to \mathcal{R}_q^n$ и $\Demap: \mathcal{R}_q^n \to \Sigma_Q^n$.
+
+Теперь можно описать $3$-фазовый протокол шифрования.
+\begin{enumerate}
+	\item $\bold a \leftarrow \Z_q; \quad \bold s, \bold e \leftarrow \chi_k; \quad \bold b = \bold a\bold s+\bold e; \quad pk = (\bold b, \bold a); \quad sk = \bold s$
+	\item $\bold{s'}, \bold{e'}, \bold{e''} \leftarrow \chi_k; \quad \bold u = \bold a\bold{s'}+\bold{e'}; \quad \bold v = \bold b\bold{s'}+\bold{e''}+\Map(m); \quad c = (\bold u, \bold v)$
+	\item $\widetilde m = \Demap(\bold v-\bold u\bold s); \quad \bold z = (\bold b\bold{s'}+\bold{e''})-(\bold a\bold{s'}+\bold{e'})\bold s = \bold e\bold{s'}-\bold{e'}\bold s+\bold{e''}$
+\end{enumerate}
+
+Событие $\widetilde m_i \neq m_i$ назовём $\mathcal{E}_i$. Заметим, что оно $\eqv \Demap(\bold z)_i \neq 0$. Таким образом, можно рассматривать это, как $\mathsf{RLWE}$-канал, который при передаче сообщения из $\mathcal{R}_q^n$ добавляет к нему шум с распределением $\bold z$.
+
+Определим $\Pr(A)$ вероятность события $A$, а $I\{A\}$ --- индикатор его выполнения. Введём на $\Sigma_Q^n$ норму Хэмминга $\|m\|_H$ и норму Ли $\|m\|_L$, как
+\begin{equation*}
+	\|m\|_H = \sum_{i=0}^{n-1}{I\{m_i \neq 0\}}; \qquad \|m\|_L = \sum_{i=0}^{n-1}{\min(m_i, Q-m_i)}
+\end{equation*}
