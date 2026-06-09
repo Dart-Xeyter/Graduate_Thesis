@@ -1,0 +1,59 @@
+\section{Постановка задачи}
+\label{sec:Chapter2} \index{Chapter2}
+
+%Необходимо формально изложить суть задачи в данной секции, предоставив такие
+%ясные и точные описания, которые позволят в последующем оценить, насколько
+%разработанное решение соответствует поставленной задаче. Текст главы должен
+%следовать структуре технического задания, включая как описание самой задачи,
+%так и набор требований к ее решению.
+
+Пусть $2 \leq Q \leq q$. Определим отображение $\Map: \Sigma_Q \to \Z_q$, как:
+\begin{equation*}
+	\Map(s) = \left\lfloor\frac{sq}{Q}\right\rfloor
+\end{equation*}
+
+В обратную сторону, положим $\Demap: \Z_q \to \Sigma_Q$, как прообраз ближайшего по метрике Ли в $\Z_q$ остатка из $\Map(\Sigma_Q)$. Если таких несколько, выберем минимальный из них (формально: после каноничного $\Z_q \hookrightarrow \Z$).
+
+После этого сообщение $m \in \Sigma_Q^n$ станем кодировать и декодировать посимвольно $\Map: \Sigma_Q^n \to \mathcal{R}_q^n$ и $\Demap: \mathcal{R}_q^n \to \Sigma_Q^n$.
+
+Теперь можно описать протокол для передачи сообщений:
+
+\begin{algorithm}
+	\caption{Генерация ключей}
+	\begin{algorithmic}
+		\Require $q, k \in \N$
+		\item $\bold a \leftarrow \Z_q$
+		\item $\bold s, \bold e \leftarrow \chi_k$
+		\item $\bold b = \bold a\bold s+\bold e$
+		\Ensure $pk = (\bold b, \bold a), sk = \bold s$
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Шифрование}
+	\begin{algorithmic}
+		\Require $m \in \Sigma_Q^n, \; pk$
+		\item $\bold{s'}, \bold{e'}, \bold{e''} \leftarrow \chi_k$
+		\item $\bold u = \bold a\bold{s'}+\bold{e'}$
+		\item $\bold v = \bold b\bold{s'}+\bold{e''}+\Map(m)$
+		\Ensure $c = (\bold u, \bold v)$
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{Разшифрование}
+	\begin{algorithmic}
+		\Require $c, \; sk$
+		\item $\widetilde m = \Demap(\bold v-\bold u\bold s)$
+		\Ensure $\widetilde{m}$
+	\end{algorithmic}
+\end{algorithm}
+
+При этом шумом $\bold z$ назовём $\bold v-\bold u\bold s-\Map(m)$. Имеем:
+\begin{equation*}
+	\bold z = (\bold b\bold{s'}+\bold{e''})-(\bold a\bold{s'}+\bold{e'})\bold s = \bold e\bold{s'}-\bold{e'}\bold s+\bold{e''}
+\end{equation*}
+
+Событие $\widetilde m_i \neq m_i$ обозначим $\mathcal{E}_i$. Заметим, что оно $\eqv \Demap(\bold z)_i~\!\neq~\!0$. Таким образом, можно рассматривать процесс шифрования и расшифрования, как $\mathsf{RLWE}$-канал, который при передаче по нему сообщения $\Map(m)$ из $\mathcal{R}_q^n$ добавляет к нему шум $\bold z$ также из $\mathcal{R}_q^n$.
+
+За сложность взлома протоколов из данного семейства отвечают некоторые хорошие свойства $\mathcal{R}_q^n$, изученные 

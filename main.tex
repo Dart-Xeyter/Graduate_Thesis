@@ -1,5 +1,8 @@
 \documentclass[a4paper, openany, 12pt]{article}
 
+%\usepackage{xcolor}
+%\pagecolor{green}
+
 %% подключаем стандарт библиографии
 \bibliographystyle{gost71u}
 
@@ -9,8 +12,8 @@
 
 %% подключаем преамбулу: в ней содержится подключение всех необходимых пакетов
 \input{include/preambule.tex}
-%% настраиваем часто используемые команды и обозначения
-\input{include/notation.tex}
+%% настраиваем часто используемые команды и сокращения
+\input{include/abbreviations.tex}
 
 \begin{document}
     %% титульник
@@ -33,9 +36,11 @@
     \newpage
 
     \fontsize{14}{16}\selectfont
-    \input{parts/Chapter0.tex} %% Введение
+    \input{parts/Introduction.tex} %% Введение
     \newpage
-    \input{parts/Chapter1.tex} %% Постановка задачи
+    \input{parts/Notation.tex} %% Обозначения
+    \newpage
+    \input{parts/Preliminaries.tex} %% Постановка задачи
     \newpage
     \input{parts/Chapter2.tex} %% Обзор существующих решений
     \newpage
@@ -43,9 +48,9 @@
     \newpage
     \input{parts/Chapter4.tex} %% Описание практической части
     \newpage
-    \input{parts/Chapter5.tex} %% Численные результаты
+    \input{parts/Results.tex} %% Численные результаты
     \newpage
-    \input{parts/Chapter6.tex} %% Заключение
+    \input{parts/Conclusion.tex} %% Заключение
     \newpage
 
     %% НЕ ТРОГАЙТЕ!!!

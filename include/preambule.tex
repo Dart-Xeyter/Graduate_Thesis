@@ -90,3 +90,12 @@ breaklines=true
 
 % Отступ перед первым абзацем в каждом разделе
 \usepackage{indentfirst}
+
+% Написание псевдокода
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+% Настройка параметров его отображения
+\captionsetup[algorithm]{labelsep=colon}
+\floatname{algorithm}{Алгоритм}
+\algrenewcommand\algorithmicrequire{\textbf{Вход:}}
+\algrenewcommand\algorithmicensure{\textbf{Выход:}}
