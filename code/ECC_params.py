@@ -33,4 +33,6 @@ def latex_t(noise, n, q, Qs, err_f, DFR_f):
         err = err_f(noise, q, Q)
         ERR, T = get_t(err, n, DFR_f)
         print(f"{Q} & {T[0]} & {err:.4f} \\\\ \\hline")
+        # err += [] if len(err) == 3 else [0]
+        # print(f"{Q} & {T[0]} & {err[1]:.4f} & {err[2]:.2e} \\\\ \\hline")
     print("\\end{tabular}\n\\end{minipage}\n\\end{table}")
