@@ -18,45 +18,76 @@
 	\left\lfloor\frac{xq}{Q}\right\rfloor = m; \qquad \left\lfloor\frac{q}{Q}\right\rfloor \leq \left\lfloor\frac{q+r}{Q}\right\rfloor \leq \left\lceil\frac{q}{Q}\right\rceil
 \end{equation*}
 
-При этом $\Demap$ (с точностью до округлений) отправляет в $x$ остатки со $2$-ой половины предыдущего и $1$-ой половины следующего за ним отрезков. Отрезки почти равны, поэтому из симметрии и буквы алфавита являются практически неотличимыми.
+При этом $\Demap$ (с точностью до округлений) отправляет в $x$ остатки со $2$-ой половины предыдущего $[\Map(x-1), \Map(x)]$ и $1$-ой половины следующего $[\Map(x), \Map(x+1)]$ за ним отрезков.
 
-Таким образом, в дальнейшем анализе мы не будем уточнять, какой символ передавался в сообщении, Б.О.О. считая его $0$.
+Из доказаного выше свойства про их длины, если зафиксировать символ $s$, в него точно декодируются все $x$ вида:
+\begin{equation*}
+	\bigl|x-\Map(s)\bigr| < \frac12\cdot\!\left\lfloor\frac{q}{Q}\right\rfloor \;\leqv\; \bigl|x-\Map(s)\bigr| < \left\lfloor\frac{q}{2Q}\right\rfloor
+\end{equation*}
 
-\subsection{DFR по Хэммингу}
+%Из свойства выше все отрезки почти равны, поэтому из симметрии и буквы алфавита являются практически неотличимыми. Таким образом, в дальнейшем анализе мы не будем уточнять, какой символ передавался в сообщении, Б.О.О. считая его $0$.
+
+\subsection{Вычисление DFR}
 
 Пусть $\mu, \nu \sim \chi_k$ --- независимые случайные величины в $\Z_q$. Обозначим распределение их произведения $\mu \cdot \nu$ за $\xi_k$. Положим $\psi = \xi_k^{\circledast n} * \xi_k^{\circledast n} * \chi_k$.
 
-В~статье~\cite{RLWE_Channel} доказывалось, что это распределение коэффициентов $\bold z$.
+В~статье~\cite{RLWE_Channel} доказывалось, что это распределение коэффициентов $\bold z$. Таким образом, полагая их независимыми, получаем $\bold z \leftarrow \psi$, и
 \begin{equation*}
-	\Pr(\mathcal{E}) \leq 1-\sum_{i=-b}^{b}{\psi[i]} \,\;\text{для}\;\, b = \left\lfloor\frac{q}{2Q}\right\rfloor; \quad \mathsf{DFR} \leq \sum_{i=t+1}^n{C_n^i\Pr(\mathcal{E})^i(1-\Pr(\mathcal{E}))^{n-i}}
+	b = \left\lfloor\frac{q}{2Q}\right\rfloor; \qquad \mathsf{CFR} \leq 1-\sum_{i=1-b}^{b-1}{\psi[i]}
+\end{equation*}
+Математически предположение это неверно, однако широко распространено в силу своей удобности и хорошо себя зарекомендовало на практике.
+
+В итоге, по формулам бинома Ньютона в метрике Хэмминга:
+\begin{equation*}
+	\mathsf{DFR} = \sum_{i=t+1}^n{C_n^i\cdot\mathsf{CFR}^i\cdot(1-\mathsf{CFR})^{n-i}}
 \end{equation*}
 
-Убрать индексы у $\mathcal{E}_i$ корректно, так как распределение у них одинаковое. При этом во втором неравенстве предполагается их независимость. Математически это, конечно, не так, однако на практике близко к оному.
+Теперь проанализируем, что происходит в метрике Ли. Мы умеем восстанавливать $\widetilde{m}$ с $\|\widetilde{m}-m\|_L \leq t$. Назовём $x_i = |(\widetilde{m}-m)_i|_L$.
 
-В итоге, посчитав на компьютере распределение $\psi: \Z_q \to [0, 1]$, можно оценить $\mathsf{DFR}$ для данного параметра $t$ в $\mathsf{ECC}$ по метрике Хэмминга.
-
-\subsection{DFR по Ли}
-
-Теперь проанализируем, что происходит в метрике Ли. Мы умеем восстанавливать $\widetilde{m}$ с $\|\widetilde{m}-m\|_L \leq t$. Назовём $x_i = |(\widetilde{m}-m)_i|_L$. Теперь нам подходят вектора $\widetilde{m}-m = (x_1, \ldots, x_n)$ с $x_1+\ldots+x_n \leq t$. Зная $\psi$, можно вычислить $\Pr(x_i = k)$ для $0 \leq k < Q$. Назовём это распределение $\sigma$.
+Обозначим кроме того $ch: \Z_q \to \Z$ функцию вида:
 \begin{equation*}
-\sigma[m] = \~\~\~\!\sum_{\Demap(x) = m}\~\~\~{\psi[x]}; \qquad P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \mathsf{DFR} \leq \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
+	ch(x) = \max_{s \in \Sigma_Q}\{|\Demap(\Map(s)+x)-s|_L\}
 \end{equation*}
 
-\noindent То же работает и для метрики Хэмминга, беря $P(z) = (1-\Pr(\mathcal{E}))+Pr(\mathcal{E})z$.
+Нам подходят вектора $\widetilde{m}-m = (x_1, \ldots, x_n)$ с $x_1+\ldots+x_n \leq t$. По $\psi$ можно вычислить $\Pr(x_i = k)$ для $0 \leq k < Q$. Более конкретно, пусть
+\begin{equation*}
+\sigma[m] = \sum_{ch(x) = m}{\psi[x]}
+\end{equation*}
+
+После этого можно вычислить $\mathsf{DFR}$ через производящие функции:
+\begin{equation*}
+	P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \mathsf{DFR} = \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
+\end{equation*}
+
+Заметим, что то же самое работает и для метрики Хэмминга, если взять её $P(z) = (1-\mathsf{CFR})+\mathsf{CFR}\cdot z$.
 
 \subsection{Границы на скорость кода}
 
-Умея считать оценку на $\mathsf{DFR}$ для данного $t$, подберём его, чтобы вероятность ошибки была меньше порогового значения. После этого по кодовому расстоянию $d = 2t+1$ и размерности $n$ можно посчитать границы Хэмминга~\cite{Hamming_bound} и Варшамова-Гилберта~\cite{Gilbert_bound},~\cite{Varshamov_bound} на его размер $M$.
+Умея считать оценку на $\mathsf{DFR}$ при данном $t$, можно подобрать необходимое кол-во исправлений, чтобы вероятность ошибки была меньше порогового значения.
 
-Примем $V(r)$ --- объём шара радиуса $r$. В метрике Хэмминга шары стандартные,
-в метрике Ли же всё немного хитрее. Для $0 \leq i < Q$ положим $c_i = 2-I\{i = 0 \vee 2i = Q\} = |\{s \in \Sigma_Q \colon |s|_L = i\}|$. После этого выводим:
+Примем $V(r)$ --- объём шара радиуса $r$. В $Q$-ичном алфавите по метрике Хэмминга есть стандартная формула:
 \begin{equation*}
-	V_H(r) = \sum_{i=0}^{r}{C_n^i(Q-1)^i}; \qquad P(z) = \sum_{m=0}^{Q-1}{c_mz^m}; \qquad V_L(r) = \sum_{i=0}^r{P^{\?n}\?[i]}
-\end{equation*}
-Для Хэмминга получается $P(z) = 1+(Q-1)z$. Дальше стандартно:
-\begin{equation*}
-	M_H \cdot V(t) \leq Q^n \leq M_{GV} \cdot V(d-1) \;\, \reqv \;\,
-	M_H \leq \left\lfloor\frac{Q^n}{V(t)}\right\rfloor \:\text{и}\;\, M_{GV} \geq \left\lceil\frac{Q^n}{V(2t)}\right\rceil
+	V_H(r) = \sum_{i=0}^{r}{C_n^i(Q-1)^i};
 \end{equation*}
 
-После этого вычисляются границы на скорость оптимального кода.
+В метрике Ли же всё немного хитрее.  Для $0 \leq i < Q$ положим:
+\begin{equation*}
+	c_i = |\{s \in \Sigma_Q \colon |s|_L = i\}| = 2-I\{i = 0 \vee 2i = Q\}
+\end{equation*}
+
+После этого снова воспользуемся производящими функциями:
+\begin{equation*}
+	P(z) = \sum_{m=0}^{Q-1}{c_mz^m}; \qquad V_L(r) = \sum_{i=0}^r{P^{\?n}\?[i]}
+\end{equation*}
+
+Опять же, для метрики Хэмминга формула выше получается, если взять $P(z) = 1+(Q-1)z$.
+
+После этого по кодовому расстоянию $d = 2t+1$ и размерности кода $n$ можно посчитать границы Хэмминга~\cite{Hamming_bound} и Варшамова-Гилберта~\cite{Gilbert_bound},~\cite{Varshamov_bound} на его размер $M$:
+\begin{equation*}
+	M_H \leq \left\lfloor\frac{Q^n}{V(t)}\right\rfloor; \qquad M_{GV} \geq \left\lceil\frac{Q^n}{V(d-1)}\right\rceil
+\end{equation*}
+
+Наконец, можно вычислить границы на скорость оптимального кода:
+\begin{equation*}
+	R = \frac{\log(M)}n
+\end{equation*}
