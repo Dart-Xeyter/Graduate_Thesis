@@ -18,8 +18,8 @@ def get_t(err, N, get_DFR):
 def python_t(noise, n, q, Qs, err_f, DFR_f):
     print("params = {")
     for Q in Qs:
-        err = err_f(noise, q, Q)
-        ERR, T = get_t(err, n, DFR_f)
+        _, errs = err_f(noise, n, q, Q)
+        ERR, T = get_t(errs, n, DFR_f)
         print(f"    {Q}: {{{repr(ERR[0])}: {T[0]}}},")
     print("}")
 
@@ -30,9 +30,9 @@ def latex_t(noise, n, q, Qs, err_f, DFR_f):
     print("\\centering\n\\begin{tabular}{|c|c|c|}")
     print("\\hline Q & t & err \\\\ \\hline")
     for Q in Qs:
-        err = err_f(noise, q, Q)
-        ERR, T = get_t(err, n, DFR_f)
-        print(f"{Q} & {T[0]} & {err:.4f} \\\\ \\hline")
-        # err += [] if len(err) == 3 else [0]
-        # print(f"{Q} & {T[0]} & {err[1]:.4f} & {err[2]:.2e} \\\\ \\hline")
+        err, errs = err_f(noise, n, q, Q)
+        ERR, T = get_t(errs, n, DFR_f)
+        # print(f"{Q} & {T[0]} & {err:.4f} \\\\ \\hline")
+        err += [] if len(err) == 3 else [0]
+        print(f"{Q} & {T[0]} & {err[1]:.4f} & {err[2]:.2e} \\\\ \\hline")
     print("\\end{tabular}\n\\end{minipage}\n\\end{table}")

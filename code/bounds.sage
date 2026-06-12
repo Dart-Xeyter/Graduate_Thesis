@@ -4,7 +4,7 @@ from sage import coding
 
 def get_R_Ham(n, Q, t):
     d = 2*t+1
-    RF = RealField(n+100)
+    RF = RealField(100)
     M_down = codes.bounds.gilbert_lower_bound(n, Q, d)
     M_up = codes.bounds.hamming_upper_bound(n, Q, d)
     M_down, M_up = ceil(M_down), floor(M_up)
@@ -13,7 +13,7 @@ def get_R_Ham(n, Q, t):
 
 
 def get_R_Li(n, Q, t):
-    RF = RealField(n+100)
+    RF = RealField(100)
     R.<x> = PolynomialRing(ZZ)
     coefs = [0]*Q
     for q1 in range(Q):

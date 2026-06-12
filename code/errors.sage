@@ -12,13 +12,13 @@ def fft_pow(a, n):
     return fftconvolve(res, a)
 
 
-def err_prob_Ham(noise, q, Q):
+def err_prob_Ham(noise, n, q, Q):
     ch = max_changes(Q, q)
     err = 1
     for q1 in range(q):
         err -= noise[q1]*(ch[q1] == 0)
     errors.append(err)
-    return err
+    return err, err
 
 
 def get_DFR_Ham(err, n, t):
@@ -28,15 +28,15 @@ def get_DFR_Ham(err, n, t):
     return pr
 
 
-def err_prob_Li(noise, q, Q):
+def err_prob_Li(noise, n, q, Q):
     ch = max_changes(Q, q)
-    errs = [0]*Q
+    err = [0]*Q
     for q1 in range(q):
-        errs[ch[q1]] += noise[q1]
-    errors.append(errs[:3])
-    return errs
+        err[ch[q1]] += noise[q1]
+    errors.append(err[:3])
+    errs = fft_pow(err, n)
+    return err, errs
 
 
-def get_DFR_Li(errs, n, t):
-    err = fft_pow(errs, n)
+def get_DFR_Li(err, n, t):
     return sum(err[t+1:])
