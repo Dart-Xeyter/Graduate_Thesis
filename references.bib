@@ -1,3 +1,44 @@
+@article{RSA,
+	author = {Rivest, R. L. and Shamir, A. and Adleman, L.},
+	title = {A method for obtaining digital signatures and public-key cryptosystems},
+	year = {1978},
+	issue_date = {Feb. 1978},
+	publisher = {Association for Computing Machinery},
+	address = {New York, NY, USA},
+	volume = {21},
+	number = {2},
+	issn = {0001-0782},
+	doi = {10.1145/359340.359342},
+	journal = {Commun. ACM},
+	pages = {120–126},
+	numpages = {7},
+	keywords = {authentication, cryptography, digital signatures, electronic funds transfer, electronic mail, factorization, message-passing, prime number, privacy, public-key cryptosystems, security}
+}
+
+@misc{GOST_signature,
+	series =    {Request for Comments},
+	number =    {7091},
+	howpublished =  {RFC 7091},
+	publisher = {RFC Editor},
+	doi =       {10.17487/RFC7091},
+	author =    {Vasily Dolmatov and Alexey Degtyarev},
+	title =     {{GOST R 34.10-2012: Digital Signature Algorithm}},
+	pagetotal = {21},
+	year =      {2013},
+}
+
+@misc{GOST_key_generation,
+	series =    {Request for Comments},
+	number =    {7836},
+	howpublished =  {RFC 7836},
+	publisher = {RFC Editor},
+	doi =       {10.17487/RFC7836},
+	author =    {Stanislav V. Smyshlyaev and Evgeny Alekseev and Igor Oshkin and Vladimir Popov and Serguei Leontiev and Vladimir Podobaev and Dmitry Belyavsky},
+	title =     {{Guidelines on the Cryptographic Algorithms to Accompany the Usage of Standards GOST R 34.10-2012 and GOST R 34.11-2012}},
+	pagetotal = {32},
+	year =      {2016},
+}
+
 @article{Shor,
 	title={Polynomial-Time Algorithms for Prime Factorization and Discrete Logarithms on a Quantum Computer},
 	volume={26},
@@ -24,6 +65,24 @@
 	pages = {317–344},
 	numpages = {28},
 	keywords = {quantum computation, elliptic curves, discrete logarithm}
+}
+
+@article{NIST_status,
+	author = {Yesina, Maryna and Ostrianska, Ye.V. and Gorbenko, I.D.},
+	year = {2022},
+	pages = {75-86},
+	title = {Status report on the third round of the NIST post-quantum cryptography standardization process},
+	journal = {Radiotekhnika},
+	doi = {10.30837/rt.2022.3.210.05}
+}
+
+@misc{NTT_applications,
+	title={Number Theoretic Transform and Its Applications in Lattice-based Cryptosystems: A Survey}, 
+	author={Zhichuang Liang and Yunlei Zhao},
+	year={2022},
+	eprint={2211.13546},
+	archivePrefix={arXiv},
+	primaryClass={cs.CR},
 }
 
 @inproceedings{LWE,
@@ -74,7 +133,7 @@
 	keywords = {quantum computation, public key encryption, cryptography, average-case hardness, Lattice}
 }
 
-@article{Hamming_bound,
+@article{Hamming,
 	author = {Hamming, R. W.},
 	title = {Error Detecting and Error Correcting Codes},
 	journal = {Bell System Technical Journal},
@@ -127,14 +186,74 @@
 	doi={10.1109/ITW46852.2021.9457596}
 }
 
-@INPROCEEDINGS{9834501,
-	author={Bocharova, Irina E. and Hollmann, Henk D. L. and Khathuria, Karan and Kudryashov, Boris D. and Skachek, Vitaly},
-	booktitle={2022 IEEE International Symposium on Information Theory (ISIT)}, 
-	title={Coding with Cyclic PAM and Vector Quantization for the RLWE/MLWE Channel}, 
-	year={2022},
-	volume={},
-	number={},
-	pages={666-671},
-	keywords={Vector quantization;Bit rate;Communication channels;Elliptic curve cryptography;Amplitude modulation;Encoding;Encryption;Post-quantum cryptography;RLWE/MLWE channel;KyberPKE;Vector quantization;Error-correcting codes},
-	doi={10.1109/ISIT50566.2022.9834501}
+@article{LAC256,
+	title={LAC: Practical Ring-LWE Based Public-Key Encryption with Byte-Level Modulus},
+	author={Xianhui Lu and Yamin Liu and Zhenfei Zhang and Dingding Jia and Haiyang Xue and Jingnan He and Bao Li},
+	journal={IACR Cryptol. ePrint Arch.},
+	year={2018},
+	volume={2018},
+	pages={1009},
+}
+
+@inproceedings{NewHope1024,
+	author = {Alkim, Erdem and Ducas, L\'{e}o and P\"{o}ppelmann, Thomas and Schwabe, Peter},
+	title = {Post-quantum key exchange: a new hope},
+	year = {2016},
+	isbn = {9781931971324},
+	publisher = {USENIX Association},
+	address = {USA},
+	booktitle = {Proceedings of the 25th USENIX Conference on Security Symposium},
+	pages = {327–343},
+	numpages = {17},
+	location = {Austin, TX, USA},
+	series = {SEC'16}
+}
+
+@article{Lee,
+	title={Some properties of nonbinary error-correcting codes},
+	author={C. Y. Lee},
+	journal={IRE Trans. Inf. Theory},
+	year={1958},
+	volume={4},
+	pages={77-82},
+}
+
+@inproceedings{Isogeny_hack,
+	author = {Castryck, Wouter and Decru, Thomas},
+	title = {An Efficient Key Recovery Attack on SIDH},
+	year = {2023},
+	isbn = {978-3-031-30588-7},
+	publisher = {Springer-Verlag},
+	address = {Berlin, Heidelberg},
+	doi = {10.1007/978-3-031-30589-4_15},
+	pages = {423–447},
+	numpages = {25},
+	keywords = {isogeny-based cryptography, SIDH, elliptic curves, genus 2 curves},
+	location = {Lyon, France}
+}
+
+@inbook{Multivar_hack,
+	author = {Beullens, Ward},
+	year = {2022},
+	pages = {464-479},
+	title = {Breaking Rainbow Takes a Weekend on a Laptop},
+	isbn = {978-3-031-15978-7},
+	doi = {10.1007/978-3-031-15979-4_16}
+}
+
+@misc{SVP_hard,
+	author = {Isaac M Hair and Amit Sahai},
+	title = {{SVP}$_p$ is Deterministically {NP}-Hard for all $p > 2$, Even to Approximate Within a Factor of $2^{\log^{1-\varepsilon} n}$},
+	howpublished = {Cryptology {ePrint} Archive, Paper 2025/2181},
+	year = {2025},
+}
+
+@article{LLL,
+	author = {Lenstra, H.W. jr., Lenstra, A.K., Lovász, L.},
+	journal = {Mathematische Annalen},
+	keywords = {polynomial-time algorithm; factorization of primitive polynomials; algorithm for basis reduction; diophantine approximation; operations research; cryptography},
+	pages = {515-534},
+	title = {Factoring Polynomials with Rational Coefficients.},
+	volume = {261},
+	year = {1982},
 }
