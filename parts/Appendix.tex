@@ -2,4 +2,34 @@
 \addcontentsline{toc}{section}{Приложение}
 \label{sec:Apendix} \index{Apendix}
 
-Здесь необходимо написать приложение, которое вы должны придумать самостоятельно.
+%Здесь необходимо написать приложение, которое вы должны придумать самостоятельно.
+
+Целиком реализованный код можно найти на моём $\mathsf{Github}$ по ссылке~\cite{github}. Здесь проиллюстрирую только фрагменты основных этапов.
+
+\lstinputlisting[
+language=Python,
+firstline=28,
+lastline=47,
+caption={Подсчёт распределения шума},
+]{code/noise.sage}
+
+\lstinputlisting[
+language=Python,
+firstline=31,
+lastline=42,
+caption={Вычисление $\DFR$}
+]{code/errors.sage}
+
+\lstinputlisting[
+language=Python,
+firstline=1,
+lastline=15,
+caption={Нахождение кол-ва исправляемых ошибок}
+]{code/ECC_params.py}
+
+\lstinputlisting[
+language=Python,
+firstline=15,
+lastline=25,
+caption={Получение границ на скорость передачи}
+]{code/bounds.sage}

@@ -44,12 +44,13 @@
 
 %% Работа с картинками
 \usepackage{caption} % пакет для подписей к рисункам, в частности, для работы caption*
-\captionsetup{justification=centering} % центрирование подписей к картинкам
-\usepackage{graphicx}                  % вставки рисунков
-\graphicspath{{images/}{images2/}}     % папки с картинками
-\setlength\fboxsep{3pt}                % отступ рамки \fbox{} от рисунка
-\setlength\fboxrule{1pt}               % толщина линий рамки \fbox{}
-\usepackage{wrapfig}                   % обтекание рисунков и таблиц текстом
+\captionsetup{justification=centering}    % центрирование подписей к картинкам
+\usepackage{graphicx}                     % вставки рисунков
+\graphicspath{{images/}{images2/}}        % папки с картинками
+\setlength\fboxsep{3pt}                   % отступ рамки \fbox{} от рисунка
+\setlength\fboxrule{1pt}                  % толщина линий рамки \fbox{}
+\usepackage{wrapfig}                      % обтекание рисунков и таблиц текстом
+\DeclareCaptionLabelSeparator{dash}{ -- } % добавление разделителя тире
 
 %% Работа с таблицами
 \usepackage{array,tabularx,tabulary,booktabs} % дополнительная работа с таблицами
@@ -57,10 +58,7 @@
 \usepackage{multirow}                         % слияние строк и столбцов в таблице
 \usepackage{makecell}                         % создание ячеек с многими строчками текста
 \usepackage{hhline}                           % позволяет разрывать горизонтальные линии в таблицах
-
-%% Разделитель в таблицах
-\DeclareCaptionLabelSeparator{dash}{ -- }
-\captionsetup[table]{labelsep=dash}
+\captionsetup[table]{labelsep=dash}           % установка разделителя
 
 %% Красная строка
 \setlength{\parindent}{1.25cm}
@@ -86,8 +84,10 @@
 \lstset{              % настройки для лисингов с кодом
 basicstyle=\small\ttfamily,
 columns=flexible,
-breaklines=true
+breaklines=true,
+firstnumber=1
 }
+\captionsetup[lstlisting]{labelsep=dash} % установка разделителя
 
 % Hyperref (для ссылок внутри  pdf)
 \usepackage[unicode, pdftex]{hyperref}

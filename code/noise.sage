@@ -15,16 +15,6 @@ def conv_distrib(a, b):
     return ans
 
 
-def comp_distrib(a, b, op):
-    inds_a = [(q, x) for q, x in enumerate(a) if x != 0]
-    inds_b = [(q, x) for q, x in enumerate(b) if x != 0]
-    res = [0]*len(a)
-    for q1, x in inds_a:
-        for q2, y in inds_b:
-            res[op(q1, q2)] += x*y
-    return res
-
-
 def pow_distrib(a, n):
     if n == 0:
         return [1]+[0]*(len(a)-1)
@@ -33,6 +23,16 @@ def pow_distrib(a, n):
         return pow_distrib(a_2, n//2)
     res = pow_distrib(a, n-1)
     return conv_distrib(res, a)
+
+
+def comp_distrib(a, b, op):
+    inds_a = [(q, x) for q, x in enumerate(a) if x != 0]
+    inds_b = [(q, x) for q, x in enumerate(b) if x != 0]
+    res = [0]*len(a)
+    for q1, x in inds_a:
+        for q2, y in inds_b:
+            res[op(q1, q2)] += x*y
+    return res
 
 
 def chi_distrib(q, k):
