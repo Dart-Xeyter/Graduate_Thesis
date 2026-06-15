@@ -3,11 +3,12 @@
 
 Вот результаты для $\LAC$ и $\NewHope$. Параметры $[n, q, k]$ были взяты $[1024, 251, 1]$ и $[1024, 12289, 8]$ соответственно. Целевой $\DFR$ положим $10^{-6}$.
 
-Для $\LAC$ имеет смысл рассматривать размер алфавита $Q$ от $2$ до $6$ символов включительно. Посчитав распределение в $\Z_q$ шума на компьютере, бинпоиском подбираем необходимое кол-во исправляемых ошибок.
+Для $\LAC$ имеет смысл рассматривать размер алфавита $Q$ от $2$ до $6$ символов включительно, подбираем на компьютере параметры:
 
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
+		\caption{Хэмминг, Утв~\ref{st:Ham}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline Q & t & err \\ \hline
@@ -17,9 +18,9 @@
 			5 & 345 & 0.2695 \\ \hline
 			6 & 448 & 0.3651 \\ \hline
 		\end{tabular}
-		\caption*{Hamming}
 	\end{minipage}
 	\begin{minipage}{0.48\textwidth}
+		\caption{Ли, Утв~\ref{st:Li}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline Q & t & err1 & err2 \\ \hline
@@ -29,15 +30,15 @@
 			5 & 346 & 0.2686 & 0.0009 \\ \hline
 			6 & 456 & 0.3594 & 0.0058 \\ \hline
 		\end{tabular}
-		\caption*{Li}
 	\end{minipage}
 \end{table}
 
 Последний столбец отвечает за вероятность ошибки в каждом символе (если рассматривать их независимо). В метрике Ли это вероятности отличия от исходного символа на расстояние $1$ и $2$ соответственно.
 
-Для $\NewHope$ делаем то же самое, только рассматривая другие $Q$.
+Для $\NewHope$ делаем то же самое, только рассматривая другие $Q$:
 
 \begin{table}[h]
+	\caption{Хэмминг, Ли, Утв~\ref{st:Ham},\ref{st:Li}~и~\ref{st:search}}
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline Q & t & err \\ \hline
@@ -49,14 +50,15 @@
 		7 & 1 & 1.32e-06 \\ \hline
 		8 & 3 & 2.28e-05 \\ \hline
 		9 & 5 & 1.66e-04 \\ \hline
-	\end{tabular}	
-	\caption*{Hamming, Li}
+	\end{tabular}
 \end{table}
 
 Для маленьких размеров алфавита вероятность двойной ошибки пренебрижимо мала, так что результаты одинаковы.
 
+\newpage
 \begin{table}[h]
 	\begin{minipage}{0.48\textwidth}
+		\caption{Хэмминг, Утв~\ref{st:Ham}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline Q & t & err \\ \hline
@@ -72,10 +74,10 @@
 			34 & 398 & 0.3186 \\ \hline
 			38 & 455 & 0.3722 \\ \hline
 		\end{tabular}
-		\caption*{Hamming}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.48\textwidth}
+		\caption{Ли, Утв~\ref{st:Li}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline Q & t & err1 & err2 \\ \hline
@@ -91,7 +93,6 @@
 			34 & 402 & 0.3158 & 0.0028 \\ \hline
 			38 & 466 & 0.3647 & 0.0075 \\ \hline
 		\end{tabular}
-		\caption*{Li}
 	\end{minipage}
 \end{table}
 
@@ -100,7 +101,9 @@
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
+		\caption{LAC, Хэмминг, Утв~\ref{st:bounds}}
 		\centering
+		\label{tab:LAC,Ham}
 		\begin{tabular}{|c|c|c|}
 			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
 			2 & 0.7569 & 0.8591 \\ \hline
@@ -109,10 +112,12 @@
 			5 & 0.0674 & 0.7312 \\ \hline
 			6 & 0.0010 & 0.5854 \\ \hline
 		\end{tabular}
-		\caption*{LAC, Hamming}
 	\end{minipage}
+	\hfill
 	\begin{minipage}{0.48\textwidth}
+		\caption{LAC, Ли, Утв~\ref{st:bounds}}
 		\centering
+		\label{tab:LAC,Li}
 		\begin{tabular}{|c|c|c|}
 			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
 			2 & 0.7569 & 0.8591 \\ \hline
@@ -121,7 +126,6 @@
 			5 & 0.3495 & 0.9804 \\ \hline
 			6 & 0.3072 & 0.9879 \\ \hline
 		\end{tabular}
-		\caption*{LAC, Li}
 	\end{minipage}
 \end{table}
 
@@ -131,7 +135,9 @@
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
+		\caption{NewHope, Хэмминг, Утв~\ref{st:bounds}}
 		\centering
+		\label{tab:Hope,Ham}
 		\begin{tabular}{|c|c|c|}
 			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
 			2 & 1.0000 & 1.0000 \\ \hline
@@ -154,10 +160,12 @@
 			34 & 0.4060 & 2.1680 \\ \hline
 			38 & 0.1187 & 1.9473 \\ \hline
 		\end{tabular}
-		\caption*{NewHope, Hamming}
 	\end{minipage}
+	\hfill
 	\begin{minipage}{0.48\textwidth}
+		\caption{NewHope, Ли, Утв~\ref{st:bounds}}
 		\centering
+		\label{tab:Hope,Li}
 		\begin{tabular}{|c|c|c|}
 			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
 			2 & 1.0000 & 1.0000 \\ \hline
@@ -180,7 +188,6 @@
 			34 & 2.8495 & 3.5972 \\ \hline
 			38 & 2.8290 & 3.6139 \\ \hline
 		\end{tabular}
-		\caption*{NewHope, Li}
 	\end{minipage}
 \end{table}
 

@@ -37,10 +37,12 @@
 \end{equation*}
 Математически предположение это неверно, однако широко распространено в силу своей удобности и хорошо себя зарекомендовало на практике.
 
-В итоге, по формулам бинома Ньютона в метрике Хэмминга:
-\begin{equation*}
-	\DFR = \sum_{i=t+1}^n{C_n^i\cdot\mathsf{CFR}^i\cdot(1-\mathsf{CFR})^{n-i}}
-\end{equation*}
+\begin{state}\label{st:Ham}
+	В метрике Хэмминга с исправлением $t$ ошибок $\DFR$ можно вычислить по формуле бинома Ньютона, получается
+	\begin{equation*}
+		\DFR = \sum_{i=t+1}^n{C_n^i\cdot\mathsf{CFR}^i\cdot(1-\mathsf{CFR})^{n-i}}
+	\end{equation*}
+\end{state}
 
 Теперь проанализируем, что происходит в метрике Ли. Мы умеем восстанавливать $\widetilde{m}$ с $\|\widetilde{m}-m\|_L \leq t$. Назовём $x_i = |(\widetilde{m}-m)_i|_L$.
 
@@ -54,12 +56,16 @@
 \sigma[m] = \sum_{ch(x) = m}{\psi[x]}
 \end{equation*}
 
-После этого можно вычислить $\DFR$ через производящие функции:
-\begin{equation*}
-	P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \DFR = \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
-\end{equation*}
+\begin{state}\label{st:Li}
+	В метрике Ли с исправлением $t$ ошибок $\DFR$ можно вычислить, используя производящие функции, получается
+	\begin{equation*}
+		P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \DFR = \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
+	\end{equation*}
+\end{state}
 
-Заметим, что то же самое работает и для метрики Хэмминга, если взять её $P(z) = (1-\mathsf{CFR})+\mathsf{CFR}\cdot z$.
+\begin{remark}
+	То же самое работает и для метрики Хэмминга, если взять её $P(z) = (1-\mathsf{CFR})+\mathsf{CFR}\cdot z$.
+\end{remark}
 
 \subsection{Границы на скорость кода}
 
@@ -80,14 +86,18 @@
 	P(z) = \sum_{m=0}^{Q-1}{c_mz^m}; \qquad V_L(r) = \sum_{i=0}^r{P^{\?n}\?[i]}
 \end{equation*}
 
-Опять же, для метрики Хэмминга формула выше получается, если взять $P(z) = 1+(Q-1)z$.
+\begin{remark}
+	Для метрики Хэмминга формула выше получается, если взять $P(z) = 1+(Q-1)z$.
+\end{remark}
 
-После этого по кодовому расстоянию $d = 2t+1$ и размерности кода $n$ можно посчитать границы Хэмминга~\cite{Hamming} и Варшамова-Гилберта~\cite{Gilbert_bound},~\cite{Varshamov_bound} на его размер $M$:
-\begin{equation*}
-	M_H \leq \left\lfloor\frac{Q^n}{V(t)}\right\rfloor; \qquad M_{GV} \geq \left\lceil\frac{Q^n}{V(d-1)}\right\rceil
-\end{equation*}
-
-Наконец, можно вычислить границы на скорость оптимального кода:
-\begin{equation*}
-	R = \frac{\log(M)}n
-\end{equation*}
+\begin{state}\label{st:bounds}
+	Для кодового расстояния $d = 2t+1$ и размерности кода $n$ действуют границы Хэмминга~\cite{Hamming} и Варшамова-Гилберта~\cite{Gilbert_bound,Varshamov_bound} на его размер $M$:
+	\begin{equation*}
+		M_H \leq \left\lfloor\frac{Q^n}{V(t)}\right\rfloor; \qquad M_{GV} \geq \left\lceil\frac{Q^n}{V(d-1)}\right\rceil
+	\end{equation*}
+	
+	После вычисляются границы на скорость оптимального кода:
+	\begin{equation*}
+		R = \frac{\log_2(M)}n
+	\end{equation*}	
+\end{state}
