@@ -10,57 +10,57 @@
 \subsection{Свойства маппинга}
 
 Пусть $x \in \N$. Представим $xq$ в виде $Qm+r$ для $0 \leq r < Q$.
-\begin{equation*}
+\begin{equation}
 	\left\lfloor\frac{(x+1)q}{Q}\right\rfloor = \left\lfloor\frac{Qm+r+q}{Q}\right\rfloor = m+\left\lfloor\frac{q+r}{Q}\right\rfloor
-\end{equation*}
+\end{equation}
 Получаем, что длины $\Map(x+1)-\Map(x)$ отличаются на $\leq 1$, так как
-\begin{equation*}
+\begin{equation}
 	\left\lfloor\frac{xq}{Q}\right\rfloor = m; \qquad \left\lfloor\frac{q}{Q}\right\rfloor \leq \left\lfloor\frac{q+r}{Q}\right\rfloor \leq \left\lceil\frac{q}{Q}\right\rceil
-\end{equation*}
+\end{equation}
 
 При этом $\Demap$ (с точностью до округлений) отправляет в $x$ остатки со $2$-ой половины предыдущего $[\Map(x-1), \Map(x)]$ и $1$-ой половины следующего $[\Map(x), \Map(x+1)]$ за ним отрезков.
 
-Из доказаного выше свойства про их длины, если зафиксировать символ $s$, в него точно декодируются все $x$ вида:
-\begin{equation*}
-	\bigl|x-\Map(s)\bigr| < \frac12\cdot\!\left\lfloor\frac{q}{Q}\right\rfloor \;\leqv\; \bigl|x-\Map(s)\bigr| < \left\lfloor\frac{q}{2Q}\right\rfloor
-\end{equation*}
+Из доказанного выше свойства про их длины, если зафиксировать символ $s$, в него точно декодируются все $y$ вида:
+\begin{equation}
+	\bigl|y-\Map(s)\bigr| < \frac12\cdot\!\left\lfloor\frac{q}{Q}\right\rfloor \;\leqv\; \bigl|y-\Map(s)\bigr| < \left\lfloor\frac{q}{2Q}\right\rfloor
+\end{equation}
 
 %Из свойства выше все отрезки почти равны, поэтому из симметрии и буквы алфавита являются практически неотличимыми. Таким образом, в дальнейшем анализе мы не будем уточнять, какой символ передавался в сообщении, Б.О.О. считая его $0$.
 
 \subsection{Вычисление DFR}
 
-Пусть $\mu, \nu \sim \chi_k$ --- независимые случайные величины в $\Z_q$. Обозначим распределение их произведения $\mu \cdot \nu$ за $\xi_k$. Положим $\psi = \xi_k^{\circledast n} * \xi_k^{\circledast n} * \chi_k$.
+Будем рассматривать значения $\chi_k$ как элементы $\Z_q$. Пусть $\mu, \nu \sim \chi_k$ --- независимые случайные величины. Обозначим распределение их произведения $\mu \cdot \nu$ за $\xi_k$. Положим $\psi = \xi_k^{\circledast n} * \xi_k^{\circledast n} * \chi_k$.
 
 В~статье~\cite{RLWE_Channel} доказывалось, что это распределение коэффициентов $\bold z$. Таким образом, полагая их независимыми, получаем $\bold z \leftarrow \psi$, и
-\begin{equation*}
+\begin{equation}
 	b = \left\lfloor\frac{q}{2Q}\right\rfloor; \qquad \mathsf{CFR} \leq 1-\sum_{i=1-b}^{b-1}{\psi[i]}
-\end{equation*}
+\end{equation}
 Математически предположение это неверно, однако широко распространено в силу своей удобности и хорошо себя зарекомендовало на практике.
 
 \begin{state}\label{st:Ham}
-	В метрике Хэмминга с исправлением $t$ ошибок $\DFR$ можно вычислить по формуле бинома Ньютона, получается
-	\begin{equation*}
-		\DFR = \sum_{i=t+1}^n{C_n^i\cdot\mathsf{CFR}^i\cdot(1-\mathsf{CFR})^{n-i}}
-	\end{equation*}
+	В метрике Хэмминга с исправлением $t$ ошибок $\DFR$ можно оценить по формуле бинома Ньютона, получается
+	\begin{equation}
+		\DFR \leq \sum_{i=t+1}^n{C_n^i\cdot\mathsf{CFR}^i\cdot(1-\mathsf{CFR})^{n-i}}
+	\end{equation}
 \end{state}
 
 Теперь проанализируем, что происходит в метрике Ли. Мы умеем восстанавливать $\widetilde{m}$ с $\|\widetilde{m}-m\|_L \leq t$. Назовём $x_i = |(\widetilde{m}-m)_i|_L$.
 
 Обозначим кроме того $ch: \Z_q \to \Z$ функцию вида:
-\begin{equation*}
+\begin{equation}
 	ch(x) = \max_{s \in \Sigma_Q}\{|\Demap(\Map(s)+x)-s|_L\}
-\end{equation*}
+\end{equation}
 
-Нам подходят вектора $\widetilde{m}-m = (x_1, \ldots, x_n)$ с $x_1+\ldots+x_n \leq t$. По $\psi$ можно вычислить $\Pr(x_i = k)$ для $0 \leq k < Q$. Более конкретно, пусть
-\begin{equation*}
+Нам подходят вектора $\widetilde{m}$, для которых $x_1+\ldots+x_n \leq t$. По $\psi$ можно вычислить $\Pr(x_i = k)$ для $0 \leq k < Q$. Более конкретно, пусть
+\begin{equation}
 \sigma[m] = \sum_{ch(x) = m}{\psi[x]}
-\end{equation*}
+\end{equation}
 
 \begin{state}\label{st:Li}
-	В метрике Ли с исправлением $t$ ошибок $\DFR$ можно вычислить, используя производящие функции, получается
-	\begin{equation*}
-		P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \DFR = \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
-	\end{equation*}
+	В метрике Ли с исправлением $t$ ошибок $\DFR$ можно оценить, используя производящие функции, получается
+	\begin{equation}
+		P(z) = \sum_{m=0}^{Q-1}{\sigma[m]z^m}; \qquad \DFR \leq \sum_{i=t+1}^{(Q-1)n}{P^{\?n}\?[i]}
+	\end{equation}
 \end{state}
 
 \begin{remark}
@@ -72,32 +72,32 @@
 Умея считать оценку на $\DFR$ при данном $t$, можно подобрать необходимое кол-во исправлений, чтобы вероятность ошибки была меньше порогового значения.
 
 Примем $V(r)$ --- объём шара радиуса $r$. В $Q$-ичном алфавите по метрике Хэмминга есть стандартная формула:
-\begin{equation*}
+\begin{equation}
 	V_H(r) = \sum_{i=0}^{r}{C_n^i(Q-1)^i};
-\end{equation*}
+\end{equation}
 
 В метрике Ли же всё немного хитрее.  Для $0 \leq i < Q$ положим:
-\begin{equation*}
-	c_i = |\{s \in \Sigma_Q \colon |s|_L = i\}| = 2-I\{i = 0 \vee 2i = Q\}
-\end{equation*}
+\begin{equation}
+	c_i = |\{s \in \Sigma_Q \colon |s|_L = i\}| = 2\cdot I\{2i \leq Q\}-I\{i = 0 \vee 2i = Q\}
+\end{equation}
 
 После этого снова воспользуемся производящими функциями:
-\begin{equation*}
+\begin{equation}
 	P(z) = \sum_{m=0}^{Q-1}{c_mz^m}; \qquad V_L(r) = \sum_{i=0}^r{P^{\?n}\?[i]}
-\end{equation*}
+\end{equation}
 
 \begin{remark}
 	Для метрики Хэмминга формула выше получается, если взять $P(z) = 1+(Q-1)z$.
 \end{remark}
 
 \begin{state}\label{st:bounds}
-	Для кодового расстояния $d = 2t+1$ и размерности кода $n$ действуют границы Хэмминга~\cite{Hamming} и Варшамова-Гилберта~\cite{Gilbert_bound,Varshamov_bound} на его размер $M$:
-	\begin{equation*}
+	Для кодового расстояния $d = 2t+1$ и длины кода $n$ действуют границы Хэмминга~\cite{Hamming} и Варшамова-Гилберта~\cite{Gilbert_bound,Varshamov_bound} на его размер $M$:
+	\begin{equation}
 		M_H \leq \left\lfloor\frac{Q^n}{V(t)}\right\rfloor; \qquad M_{GV} \geq \left\lceil\frac{Q^n}{V(d-1)}\right\rceil
-	\end{equation*}
+	\end{equation}
 	
-	После вычисляются границы на скорость оптимального кода:
-	\begin{equation*}
+	Зная их, можно вычислить границы на битовую скорость оптимального кода:
+	\begin{equation}
 		R = \frac{\log_2(M)}n
-	\end{equation*}	
+	\end{equation}	
 \end{state}

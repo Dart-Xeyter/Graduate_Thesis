@@ -8,7 +8,7 @@
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
-		\caption{Хэмминг, Утв~\ref{st:Ham}~и~\ref{st:search}}
+		\caption{Хэмминг, Утв.~\ref{st:Ham}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline Q & t & err \\ \hline
@@ -20,7 +20,7 @@
 		\end{tabular}
 	\end{minipage}
 	\begin{minipage}{0.48\textwidth}
-		\caption{Ли, Утв~\ref{st:Li}~и~\ref{st:search}}
+		\caption{Ли, Утв.~\ref{st:Li}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline Q & t & err1 & err2 \\ \hline
@@ -33,12 +33,12 @@
 	\end{minipage}
 \end{table}
 
-Последний столбец отвечает за вероятность ошибки в каждом символе (если рассматривать их независимо). В метрике Ли это вероятности отличия от исходного символа на расстояние $1$ и $2$ соответственно.
+Последние столбцы отвечают за вероятность ошибки в каждом символе (если рассматривать их независимо). В метрике Ли это вероятности отличия от исходного символа на расстояние $1$ и $2$ соответственно.
 
 Для $\NewHope$ делаем то же самое, только рассматривая другие $Q$:
 
 \begin{table}[h]
-	\caption{Хэмминг, Ли, Утв~\ref{st:Ham},\ref{st:Li}~и~\ref{st:search}}
+	\caption{Хэмминг, Ли, Утв.~\ref{st:Ham},\ref{st:Li}~и~\ref{st:search}}
 	\centering
 	\begin{tabular}{|c|c|c|}
 		\hline Q & t & err \\ \hline
@@ -53,12 +53,12 @@
 	\end{tabular}
 \end{table}
 
-Для маленьких размеров алфавита вероятность двойной ошибки пренебрижимо мала, так что результаты одинаковы.
+Для маленьких размеров алфавита вероятность двойной ошибки пренебрежимо мала, так что результаты одинаковы.
 
 \newpage
 \begin{table}[h]
 	\begin{minipage}{0.48\textwidth}
-		\caption{Хэмминг, Утв~\ref{st:Ham}~и~\ref{st:search}}
+		\caption{Хэмминг, Утв.~\ref{st:Ham}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|}
 			\hline Q & t & err \\ \hline
@@ -77,7 +77,7 @@
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.48\textwidth}
-		\caption{Ли, Утв~\ref{st:Li}~и~\ref{st:search}}
+		\caption{Ли, Утв.~\ref{st:Li}~и~\ref{st:search}}
 		\centering
 		\begin{tabular}{|c|c|c|c|}
 			\hline Q & t & err1 & err2 \\ \hline
@@ -96,12 +96,12 @@
 	\end{minipage}
 \end{table}
 
-Тем не менее, при больших значениях $Q$ разница проявляется. Дальше по известным $n$ и $d$ можно посчитать границы на скорость $R$.
+Тем не менее, при больших значениях $Q$ разница проявляется. Дальше по известным $n$ и $d$ считаются границы на битовую скорость $R$.
 
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
-		\caption{LAC, Хэмминг, Утв~\ref{st:bounds}}
+		\caption{LAC, Хэмминг, Утв.~\ref{st:bounds}}
 		\centering
 		\label{tab:LAC,Ham}
 		\begin{tabular}{|c|c|c|}
@@ -115,7 +115,7 @@
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.48\textwidth}
-		\caption{LAC, Ли, Утв~\ref{st:bounds}}
+		\caption{LAC, Ли, Утв.~\ref{st:bounds}}
 		\centering
 		\label{tab:LAC,Li}
 		\begin{tabular}{|c|c|c|}
@@ -135,7 +135,7 @@
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
-		\caption{NewHope, Хэмминг, Утв~\ref{st:bounds}}
+		\caption{NewHope, Хэмминг, Утв.~\ref{st:bounds}}
 		\centering
 		\label{tab:Hope,Ham}
 		\begin{tabular}{|c|c|c|}
@@ -163,7 +163,7 @@
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.48\textwidth}
-		\caption{NewHope, Ли, Утв~\ref{st:bounds}}
+		\caption{NewHope, Ли, Утв.~\ref{st:bounds}}
 		\centering
 		\label{tab:Hope,Li}
 		\begin{tabular}{|c|c|c|}
@@ -191,6 +191,6 @@
 	\end{minipage}
 \end{table}
 
-Также занимательно, что вероятность возникновения отличия на $\geq\!2$ в метрике Ли перестаёт быть пренебрежительно мала лишь к моменту, когда вероятность отличия на $1$ становится огромна (порядка $\frac14$ и выше).
-
+Также занимательно, что вероятность возникновения отличия на $\geq\!2$ в метрике Ли перестаёт быть пренебрежимо мала лишь к моменту, когда вероятность отличия на $1$ становится огромна (порядка $\frac14$ и выше).
+	
 Таким образом, пока кол-во исправляемых ошибок остаётся не слишком большим, можно считать их все переходами из символа в соседний.
