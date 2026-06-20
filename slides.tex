@@ -1,0 +1,281 @@
+\documentclass[notheorems]{beamer}
+
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amssymb}
+\usepackage[perpage]{footmisc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb}
+
+\newcommand{\curly}{\mathrel{\leadsto}}
+
+\let\lemma\relax
+\let\definition\relax
+\let\problem\relax
+\let\theorem\relax
+
+\usepackage{amsthm}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{yfonts}
+\usepackage{tikz}
+\usetikzlibrary{calc,patterns,angles,quotes}
+\usetikzlibrary{shapes,positioning,intersections,quotes}
+%\pagestyle{fancy}
+\usepackage[cmtip,all]{xy}
+\usepackage{graphicx}
+\graphicspath{ {./} }
+
+\usepackage{cite,caption}
+
+% Работа с таблицами
+\usepackage{array,tabularx,tabulary,booktabs}
+\setbeamertemplate{caption}[numbered]
+
+% Написание псевдокода
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\captionsetup[algorithm]{labelsep=colon}
+\floatname{algorithm}{Алгоритм}
+\algrenewcommand\algorithmicrequire{\textbf{Вход:}}
+\algrenewcommand\algorithmicensure{\textbf{Выход:}}
+
+\setbeamertemplate{frametitle}[default][center]
+%\usepackage[backend=biber,style=alphabetic,sorting=ynt]{biblatex}
+
+%\addbibresource{refs.bib}
+
+\title[Защита диплома ДМ]{Постквантовая криптография на решётках}
+\author{Михаил Савватеев}
+\institute[]{Научный руководитель: Алексей Фролов}
+\date[22 июня 2026]{Защита диплома\\Кафедра дискретной математики МФТИ\\Долгопрудный, 22 июня 2026 г.}
+\logo{}
+
+%\AtBeginBibliography{\footnotesize}
+\begin{document}
+
+\include{include/abbreviations.tex}
+
+\frame{\titlepage}
+
+\begin{frame}{Виды криптографии}
+\begin{itemize}
+	\item<1-> Классические алгоритмы ($\mathsf{RSA}$, Диффи-Хэллман, Эль-Гамаль)
+	
+	Сложность факторизации и дискретного логарифмирования
+	
+	\smallskip
+	\color{red}{Уязвимы к атаке на квантовом компьютере (алгоритмы Шора)}
+	
+	\medskip
+	\item<2-> Изогении суперсингулярных эллиптических кривых
+	
+	Решение системы полиномиальных уравнений в $\F_q$
+	
+	\smallskip
+	\color{red}{Ненадёжны (взлом $\mathsf{SIDH}$ в $2022$, $\mathsf{GeMSS}$ в $2021$, $\mathsf{Rainbow}$ в $2022$)}
+	
+	\medskip
+	\item<3-> Хэш-функции
+	
+	\smallskip
+	\color{cyan}{Удобны для цифровой подписи. Нет полноценного шифрования.}
+	
+	\medskip
+	\item<4-> Коды, исправляющие ошибки
+	
+	\smallskip
+	\color{cyan}{Изучены, но неэффективны. Многие попытки ускорить уязвимы.}
+	
+	\medskip
+	\item<5-> Теория решёток. $\mathsf{MLWE}, \mathsf{MSIS}$ и $\mathsf{NTRU}$ problems.
+	
+	\smallskip
+	\color{green}{Быстры, надёжны и универсальны.}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{LWE-problem}
+Есть система зашумлённых линейных уравнений:
+\begin{equation*}
+	A\vec s+\vec e = \vec b \pmod{\Z_q}
+\end{equation*}
+
+\begin{itemize}
+	\item $\vec s$ --- генерируется из $\chi^n$
+	\item $A$ --- равномерно из $\Z_q^{m \times n}$
+	\item $\vec e$ --- снова из $\chi^n$
+\end{itemize}
+
+\pause
+\bigskip
+Устанавливается максимально допустимая вероятность ошибки $\varepsilon$.
+
+По известным $(A, \vec b)$ нужно c $\Pr \geq 1-\varepsilon$ восстанавливать $\vec s$.
+\end{frame}
+
+\begin{frame}{RLWE-шифрование}
+\begin{minipage}{0.47\textwidth}
+	\uncover<1->{
+	Перейдём в $\mathcal{R}_q^n = \Z_q[x]/(x^n+1)$.
+	
+	Зафиксируем распределение $\chi_k$.}
+
+	\bigskip\bigskip	
+	\uncover<2->{
+	Для алфавита $\Sigma_Q$ размера $Q$:
+	
+	\vspace{-0.2cm}
+	\begin{equation*}
+		\Map: \Sigma_Q^n \to \mathcal{R}_q^n
+	\end{equation*}
+	
+	\vspace{-0.5cm}
+	\begin{equation*}
+		\Demap: \mathcal{R}_q^n \to \Sigma_Q^n
+	\end{equation*}
+	}
+	
+	\smallskip
+	\uncover<3->{
+	Взлом из решения $\mathsf{RLWE}$-problem.}
+\end{minipage}
+\hfill
+\begin{minipage}{0.41\textwidth}
+	\uncover<1->{
+	Генерация ключей
+	\begin{algorithmic}[1]
+		\item $\bold a \leftarrow \mathcal{R}_q^n$
+		\item $\bold s, \bold e \leftarrow \chi_k^n$
+		\item $\bold b = \bold a\bold s+\bold e$
+	\end{algorithmic}
+	}
+	
+	\bigskip
+	\uncover<2->{
+	Зашифрование
+	\begin{algorithmic}[1]
+		\item $\bold{s'}, \bold{e'}, \bold{e''} \leftarrow \chi_k^n$
+		\item $\bold u = \bold a\bold{s'}+\bold{e'}$
+		\item $\bold v = \bold b\bold{s'}+\bold{e''}+\Map(m)$
+	\end{algorithmic}
+	}
+	
+	\bigskip
+	\uncover<3->{
+	Расшифрование
+	\begin{algorithmic}[1]
+		\item $\widetilde m = \Demap(\bold v-\bold u\bold s)$
+	\end{algorithmic}
+	}
+\end{minipage}
+\end{frame}
+
+\begin{frame}{RLWE-канал}
+\begin{equation*}
+	\bold v-\bold u\bold s = \Map(m)+\bold z
+\end{equation*}
+
+$\mathsf{RLWE}$-зашифрование $\eqv$ передача данных по $\mathsf{RLWE}$-каналу
+
+\pause
+
+\vspace{0.8cm}
+Использование $\mathsf{ECC}$ для компенсации зашумления.
+
+\pause
+\vspace{0.7cm}
+\begin{itemize}
+	\item<3-> Зависимость скорости от вероятности ошибки?
+	\item<4-> Их взаимосвязь с размером алфавита?
+	\item<5-> Поведение при изменении метрики в $\mathsf{ECC}$?
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Полученные результаты}
+Криптосистемы: $\LAC\,256$ и $\NewHope\,1024$.
+
+Целевой $\DFR \leq 10^{-6}$ (допустимое $\varepsilon = 10^{-6}$).
+
+\pause
+\bigskip
+Скорость оценена через границы Хэмминга и Варшамова-Гилберта.
+
+В $\mathsf{ECC}$ использовались метрики Хэмминга и Ли.
+
+\only<3>{
+\begin{table}[h]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\caption{LAC, Хэмминг}
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
+			2 & 0.7569 & 0.8591 \\ \hline
+			3 & 0.6298 & 0.9939 \\ \hline
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\caption{LAC, Ли}
+		\centering
+		\begin{tabular}{|c|c|c|}
+			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
+			2 & 0.7569 & 0.8591 \\ \hline
+			3 & 0.6298 & 0.9939 \\ \hline
+		\end{tabular}
+	\end{minipage}
+\end{table}
+}
+
+\only<4>{
+\setcounter{table}{2}
+\begin{table}[h]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\caption{NewHope, Хэмминг}
+		\begin{tabular}{|c|c|c|}
+			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
+			8 & 2.9342 & 2.9650 \\ \hline
+			14 & 3.1555 & 3.4450 \\ \hline
+			34 & 0.4060 & 2.1680 \\ \hline
+		\end{tabular}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\caption{NewHope, Ли}
+		\begin{tabular}{|c|c|c|}
+			\hline Q & $R_{GV}$ & $R_H$ \\ \hline
+			8 & 2.9448 & 2.9703 \\ \hline
+			14 & 3.3518 & 3.5442 \\ \hline
+			34 & 2.8495 & 3.5972 \\ \hline
+		\end{tabular}
+	\end{minipage}
+\end{table}
+}
+\end{frame}
+
+\begin{frame}[plain]
+\vfill
+\begin{center}
+	{\Huge Спасибо за внимание!}
+	
+	\vspace{1cm}
+	
+	Контакты: \texttt{savvateev.ma@phystech.edu}
+	
+	\vspace{0.2cm}
+	
+	\texttt{https://github.com/Dart-Xeyter/Graduate\_Thesis/}
+\end{center}
+\end{frame}
+
+\end{document}
+
