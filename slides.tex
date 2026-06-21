@@ -63,16 +63,29 @@
 
 \frame{\titlepage}
 
-\begin{frame}{Виды криптографии}
+\begin{frame}{Классическая криптография}
+Алгоритмы шифрования и цифровой подписи:
+
+\medskip
 \begin{itemize}
-	\item<1-> Классические алгоритмы ($\mathsf{RSA}$, Диффи-Хэллман, Эль-Гамаль)
-	
-	Сложность факторизации и дискретного логарифмирования
-	
-	\smallskip
-	\color{red}{Уязвимы к атаке на квантовом компьютере (алгоритмы Шора)}
-	
-	\medskip
+	\item<2-> $\mathsf{RSA}$ --- факторизация числа
+	\item<3-> Диффи-Хеллман --- дискретное логарифмирование в $\Z_q^*$
+	\item<4-> Эль-Гамаль (ГОСТ) --- логарифмирование на элл.кривой
+\end{itemize}
+
+\bigskip
+\uncover<5->{
+{\color{red}Эффективно взламываются на квантовом компьютере.}}
+
+\bigskip
+\uncover<6->{
+С $2017$ года NIST проводит конкурс на роль новых стандартов в постквантовой криптографии. 
+}
+
+\end{frame}
+
+\begin{frame}{Виды постквантовой криптографии}
+\begin{itemize}
 	\item<2-> Изогении суперсингулярных эллиптических кривых
 	
 	Решение системы полиномиальных уравнений в $\F_q$
@@ -100,49 +113,120 @@
 \end{itemize}
 \end{frame}
 
-\begin{frame}{LWE-problem}
-Есть система зашумлённых линейных уравнений:
+\begin{frame}{Learning With Errors}
+\includegraphics[scale=0.47]{images/LWE.jpg}
+
+\pause
+\bigskip
+Есть фиксированный вектор $\vec s \in \Z_q^n$.
+
+\pause
+\bigskip
+Составляется система зашумлённых линейных уравнений:
 \begin{equation*}
-	A\vec s+\vec e = \vec b \pmod{\Z_q}
+	A\vec s+\vec e = \vec b \pmod q
 \end{equation*}
 
 \begin{itemize}
-	\item $\vec s$ --- генерируется из $\chi^n$
-	\item $A$ --- равномерно из $\Z_q^{m \times n}$
-	\item $\vec e$ --- снова из $\chi^n$
+	\item $A$ --- матрица из $\Z_q^{m \times n}$
+	\item $\vec e$ --- вектор из $\Z_q^m$
 \end{itemize}
 
 \pause
 \bigskip
-Устанавливается максимально допустимая вероятность ошибки $\varepsilon$.
+По известным $(A, \vec b)$ нужно восстановить $\vec s$.
+\end{frame}
 
-По известным $(A, \vec b)$ нужно c $\Pr \geq 1-\varepsilon$ восстанавливать $\vec s$.
+\begin{frame}{LWE-problem}
+Зафиксируем некоторое распределение $\chi$.
+
+\pause
+\bigskip
+Будем генерировать:
+\begin{itemize}
+	\item $\vec s$ --- из $\chi^n$
+	\item $A$ --- равномерно из $\Z_q^{m \times n}$
+	\item $\vec e$ --- из $\chi^m$
+\end{itemize}
+
+\pause
+\bigskip
+Установим максимально допустимую вероятность ошибки $\varepsilon$.
+
+\pause
+\bigskip
+Задача --- по данным $(A, \vec b)$ с $\Pr \geq 1-\varepsilon$ находить $\vec s$.
+\end{frame}
+
+\begin{frame}{RLWE-problem}
+	Обозначим $\mathcal{R}_q^n = \Z_q[x]/(x^n+1)$.
+	
+	\medskip
+	Вместо $A, \vec s, \vec e$ будут $\bold a, \bold s, \bold e \in \mathcal{R}_q^n$.
+	
+	\pause
+	\begin{equation*}
+		\bold a\bold s+\bold e = \bold b
+	\end{equation*}
+	
+	\begin{itemize}
+		\item $\bold s, \bold e$ --- генерируются из $\chi^n$.
+		\item $\bold a$ --- равномерно из $\mathcal{R}_q^n$.
+	\end{itemize}
+	
+	\pause
+	\bigskip	
+	По известным $(\bold a, \bold b)$ нужно c $\Pr \geq 1-\varepsilon$ восстанавливать $\bold s$.
+\end{frame}
+
+\begin{frame}{Кодировка сообщения}
+\begin{minipage}{0.41\textwidth}
+	\uncover<1->{
+	$\Sigma_Q = \{0, \ldots, Q-1\}$ ---\\ алфавит размера $Q$.
+	
+	Сообщение ---\\ вектор $m \in \Sigma_Q^n$.}
+	
+	\bigskip\bigskip
+	\uncover<2->{
+	Определим отображения:
+	\begin{itemize}
+		\item $\Map: \Sigma_Q \to \Z_q$
+		\item $\Demap: \Z_q \to \Sigma_Q$
+	\end{itemize}
+	}
+	
+	\bigskip\medskip
+	\uncover<3->{
+	Метрика Ли --- расстояние\\ между символами по кругу.}
+\end{minipage}
+\hfill
+\begin{minipage}{0.57\textwidth}
+	\uncover<1->{
+	\includegraphics[scale=0.15]{images/Mapping.png}}
+\end{minipage}
+
 \end{frame}
 
 \begin{frame}{RLWE-шифрование}
 \begin{minipage}{0.47\textwidth}
 	\uncover<1->{
-	Перейдём в $\mathcal{R}_q^n = \Z_q[x]/(x^n+1)$.
+	Выбираем распределение $\chi_k$.}
 	
-	Зафиксируем распределение $\chi_k$.}
+	\begin{itemize}
+		\item Открытый ключ $(\bold a, \bold b)$
+		\item Закрытый ключ $\bold s$
+	\end{itemize}
 
-	\bigskip\bigskip	
+	\bigskip	
 	\uncover<2->{
-	Для алфавита $\Sigma_Q$ размера $Q$:
+	Знаем открытый ключ, получаем\\ шифровку сообщения $(\bold u, \bold v)$.}
 	
-	\vspace{-0.2cm}
-	\begin{equation*}
-		\Map: \Sigma_Q^n \to \mathcal{R}_q^n
-	\end{equation*}
-	
-	\vspace{-0.5cm}
-	\begin{equation*}
-		\Demap: \mathcal{R}_q^n \to \Sigma_Q^n
-	\end{equation*}
-	}
+	\bigskip\smallskip
+	\uncover<3->{
+	Знаем закрытый ключ, можем\\
+	восстановить само сообщение.
 	
 	\smallskip
-	\uncover<3->{
 	Взлом из решения $\mathsf{RLWE}$-problem.}
 \end{minipage}
 \hfill
@@ -156,7 +240,7 @@
 	\end{algorithmic}
 	}
 	
-	\bigskip
+	\medskip
 	\uncover<2->{
 	Зашифрование
 	\begin{algorithmic}[1]
@@ -166,17 +250,27 @@
 	\end{algorithmic}
 	}
 	
-	\bigskip
+	\medskip
 	\uncover<3->{
 	Расшифрование
 	\begin{algorithmic}[1]
-		\item $\widetilde m = \Demap(\bold v-\bold u\bold s)$
+		\item $m' = \Demap(\bold v-\bold u\bold s)$
 	\end{algorithmic}
 	}
 \end{minipage}
+
+\only<4->{
+\begin{align*}
+	\bold v-\bold u\bold s = \Map(m)+(\bold b\bold{s'}+\bold{e''})-(\bold a\bold{s'}+\bold{e'})\bold s & =\\[-13pt]
+	= \Map(m)+(\bold a\bold s+\bold e)\bold{s'}+\bold{e''}-\bold a\bold{s'}\bold s-\bold{e'}\bold s & = \Map(m)+\overset{\bold z}{\overbrace{\bold e\bold{s'}-\bold{e'}\bold s+\bold{e''}}}
+\end{align*}
+}
 \end{frame}
 
 \begin{frame}{RLWE-канал}
+\includegraphics[scale=0.5]{images/RLWE.jpg}
+
+\pause
 \begin{equation*}
 	\bold v-\bold u\bold s = \Map(m)+\bold z
 \end{equation*}
@@ -184,16 +278,40 @@
 $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных по $\mathsf{RLWE}$-каналу
 
 \pause
+\bigskip
+\begin{minipage}{0.35\textwidth}
+	Сообщение длины $n$,\\ могут быть ошибки
+	
+	\bigskip
+	\uncover<4->{
+	Используем $\mathsf{ECC}$ для\\ восстановления.}
+\end{minipage}
+\begin{minipage}{0.57\textwidth}
+	\uncover<2->{
+	\includegraphics[scale=0.43]{images/ECC.jpg}}
+\end{minipage}
+\end{frame}
 
-\vspace{0.8cm}
-Использование $\mathsf{ECC}$ для компенсации зашумления.
-
-\pause
-\vspace{0.7cm}
+\begin{frame}{Вопросы для изучения}
+\begin{columns}
+\begin{column}{0.45\textwidth}
+	Сообщение --- $n$ символов.
+	
+	\bigskip
+	Метрика Хэмминга --- кол-во координат с ошибкой.
+	
+	\bigskip
+	Метрика Ли --- суммарное расстояние по кругу.
+\end{column}
+\begin{column}{0.5\textwidth}
+	\includegraphics[scale=0.11]{images/Mapping.png}
+\end{column}
+\end{columns}
+\bigskip
 \begin{itemize}
-	\item<3-> Зависимость скорости от вероятности ошибки?
-	\item<4-> Их взаимосвязь с размером алфавита?
-	\item<5-> Поведение при изменении метрики в $\mathsf{ECC}$?
+	\item<2-> Зависимость скорости от вероятности ошибки?
+	\item<3-> Их взаимосвязь с размером алфавита?
+	\item<4-> Поведение при изменении метрики в $\mathsf{ECC}$?
 \end{itemize}
 \end{frame}
 
@@ -206,8 +324,7 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 \bigskip
 Скорость оценена через границы Хэмминга и Варшамова-Гилберта.
 
-В $\mathsf{ECC}$ использовались метрики Хэмминга и Ли.
-
+\bigskip
 \only<3>{
 \begin{table}[h]
 	\centering
@@ -278,4 +395,3 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 \end{frame}
 
 \end{document}
-
