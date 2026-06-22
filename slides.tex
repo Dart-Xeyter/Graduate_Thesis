@@ -144,18 +144,18 @@
 \bigskip
 Будем генерировать:
 \begin{itemize}
-	\item $\vec s$ --- из $\chi^n$
+	\item $\vec s$ --- равновероятно
 	\item $A$ --- равномерно из $\Z_q^{m \times n}$
 	\item $\vec e$ --- из $\chi^m$
 \end{itemize}
 
 \pause
 \bigskip
-Установим максимально допустимую вероятность ошибки $\varepsilon$.
+Пусть $p(n)$ --- некоторый фиксированный полином.
 
 \pause
 \bigskip
-Задача --- по данным $(A, \vec b)$ с $\Pr \geq 1-\varepsilon$ находить $\vec s$.
+Задача --- по данным $(A, \vec b)$ с $\Pr \geq \frac1{p(n)}$ находить $\vec s$.
 \end{frame}
 
 \begin{frame}{RLWE-problem}
@@ -176,7 +176,13 @@
 	
 	\pause
 	\bigskip	
-	По известным $(\bold a, \bold b)$ нужно c $\Pr \geq 1-\varepsilon$ восстанавливать $\bold s$.
+	По известным $(\bold a, \bold b)$ нужно c $\Pr \geq \frac1{p(n)}$ восстанавливать $\bold s$.
+	
+	Предполагается трудность для решения этой $\mathsf{ACH}$ задачи.
+	
+	\pause
+	\bigskip
+	В $2010$ году Регев показал, что к ней сводится $\mathsf{WCH}$ аналог задачи $\mathsf{SIVP}_\gamma$ в кольцах для полиномиального приближения $\gamma$.
 \end{frame}
 
 \begin{frame}{Кодировка сообщения}
@@ -270,7 +276,6 @@
 \begin{frame}{RLWE-канал}
 \includegraphics[scale=0.5]{images/RLWE.jpg}
 
-\pause
 \begin{equation*}
 	\bold v-\bold u\bold s = \Map(m)+\bold z
 \end{equation*}
@@ -283,11 +288,11 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 	Сообщение длины $n$,\\ могут быть ошибки
 	
 	\bigskip
-	\uncover<4->{
+	\uncover<3->{
 	Используем $\mathsf{ECC}$ для\\ восстановления.}
 \end{minipage}
 \begin{minipage}{0.57\textwidth}
-	\uncover<2->{
+	\uncover<1->{
 	\includegraphics[scale=0.43]{images/ECC.jpg}}
 \end{minipage}
 \end{frame}
@@ -302,6 +307,9 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 	
 	\bigskip
 	Метрика Ли --- суммарное расстояние по кругу.
+	
+	\bigskip
+	$\DFR$ --- Decryption Failure Rate
 \end{column}
 \begin{column}{0.5\textwidth}
 	\includegraphics[scale=0.11]{images/Mapping.png}
@@ -316,16 +324,25 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 \end{frame}
 
 \begin{frame}{Полученные результаты}
-Криптосистемы: $\LAC\,256$ и $\NewHope\,1024$.
+Исследуемые протоколы: $\LAC\,256$ и $\NewHope\,1024$.
 
-Целевой $\DFR \leq 10^{-6}$ (допустимое $\varepsilon = 10^{-6}$).
+Целевой $\DFR \leq 10^{-6}$ ($\Pr$ ошибки при знании $\bold s$).
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline Протокол & n & q & k \\ \hline
+		$\LAC$ & $1024$ & $251$ & $1$ \\ \hline
+		$\NewHope$ & $1024$ & $12289$ & $8$ \\ \hline
+	\end{tabular}
+\end{table}
 
 \pause
-\bigskip
+\smallskip
 Скорость оценена через границы Хэмминга и Варшамова-Гилберта.
 
-\bigskip
 \only<3>{
+\smallskip
 \begin{table}[h]
 	\centering
 	\begin{minipage}{0.48\textwidth}
@@ -350,7 +367,7 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 \end{table}
 }
 
-\only<4>{
+\only<4->{
 \setcounter{table}{2}
 \begin{table}[h]
 	\centering
@@ -377,6 +394,9 @@ $\mathsf{RLWE}$-зашифрование $\eqv$ передача данных п
 	\end{minipage}
 \end{table}
 }
+
+\only<5>{
+Подавляющее кол-во ошибок --- изменение на соседний символ.}
 \end{frame}
 
 \begin{frame}[plain]
